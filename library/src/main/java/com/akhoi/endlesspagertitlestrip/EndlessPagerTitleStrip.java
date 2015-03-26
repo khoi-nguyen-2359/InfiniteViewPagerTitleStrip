@@ -46,7 +46,7 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
     private ViewPager viewPager;
     private long lastTapUpTime;
 
-    private int titleStripApprearance;
+    private int titleStripAppearance;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public EndlessPagerTitleStrip(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -75,7 +75,7 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
         }
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.EndlessPagerTitleStrip);
-        titleStripApprearance = typedArray.getResourceId(R.styleable.EndlessPagerTitleStrip_titleStripAppearance, 0);
+        titleStripAppearance = typedArray.getResourceId(R.styleable.EndlessPagerTitleStrip_titleStripAppearance, 0);
     }
 
     private void init(AttributeSet attrs) {
@@ -122,7 +122,7 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
      */
     private TextView createTitleTv(LayoutInflater inflater, int index) {
         TextView tvTitle = new TextView(getContext());
-        tvTitle.setTextAppearance(getContext(), titleStripApprearance);
+        tvTitle.setTextAppearance(getContext(), titleStripAppearance);
         tvTitle.setText(titles[index]);
         tvTitle.setTag(index);
 
