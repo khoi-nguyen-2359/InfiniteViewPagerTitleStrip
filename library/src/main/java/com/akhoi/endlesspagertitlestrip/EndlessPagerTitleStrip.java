@@ -25,15 +25,8 @@ import com.akhoi.endlesstitlestrip.R;
  */
 public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnPageChangeListener {
     private static final int MAX_SETTLE_DURATION = 600; // ms
-    public OnTitleStripEventListener getEventListener() {
-        return eventListener;
-    }
 
-    public void setEventListener(OnTitleStripEventListener eventListener) {
-        this.eventListener = eventListener;
-    }
-
-    public interface OnTitleStripEventListener {
+    public interface EventListener {
         void onTitleClicked(int titleIndex);
     }
 
@@ -42,7 +35,7 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
     private int titleCount;
     private String[] titles;
     private int prevPage;
-    private OnTitleStripEventListener eventListener;
+    private EventListener eventListener;
     private ViewPager viewPager;
     private long lastTapUpTime;
 
@@ -103,6 +96,7 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
                 lastTapUpTime = System.currentTimeMillis();
                 int titleIndex = (int) v.getTag();
                 if (eventListener != null) {
+                    viewPager.setCurrentItem(titleIndex);
                     eventListener.onTitleClicked(titleIndex);
                 }
             } else if (viewPager != null && fromLastTouch >= MAX_SETTLE_DURATION) {
@@ -305,5 +299,9 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
 
     @Override
     public void onPageScrollStateChanged(int state) {
+    }
+
+    public void setEventListener(EventListener eventListener) {
+        this.eventListener = eventListener;
     }
 }
