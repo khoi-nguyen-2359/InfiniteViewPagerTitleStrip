@@ -11,3 +11,6 @@ In dev.
 <br/>
 <br/>
 <b>Working:</b> Use this together with an endless pager adapter to make better experience.<br/>
+<br/>
+<br/>
+<b>Known issues:</b> incorrect title's order after a screen orientation change.
