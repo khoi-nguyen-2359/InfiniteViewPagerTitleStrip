@@ -2,7 +2,7 @@
 In dev.
 <br/>
 <br/>
-<a href="http://gyazo.com/558d950a8b982097d403e1742e620c16"><img src="http://i.gyazo.com/558d950a8b982097d403e1742e620c16.gif" /></a>
+<!--<a href="http://gyazo.com/558d950a8b982097d403e1742e620c16"><img src="http://i.gyazo.com/558d950a8b982097d403e1742e620c16.gif" /></a>-->
 <br/>
 <br/>
 <b>Done:</b><br/>
