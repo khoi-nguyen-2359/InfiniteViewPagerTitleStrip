@@ -39,7 +39,8 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
     private ViewPager viewPager;
     private long lastTapUpTime;
 
-    private int titleStripAppearance;
+    private int titleStripNormalAppearance;
+    private int titleStripSelectedAppearance;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public EndlessPagerTitleStrip(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -68,7 +69,10 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
         }
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.EndlessPagerTitleStrip);
-        titleStripAppearance = typedArray.getResourceId(R.styleable.EndlessPagerTitleStrip_titleStripAppearance, 0);
+        titleStripNormalAppearance = typedArray.getResourceId(R.styleable.EndlessPagerTitleStrip_titleStripNormalAppearance, 0);
+        titleStripSelectedAppearance = typedArray.getResourceId(R.styleable.EndlessPagerTitleStrip_titleStripSelectedAppearance, 0);
+
+        typedArray.recycle();
     }
 
     private void init(AttributeSet attrs) {
@@ -95,10 +99,7 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
                 // this is for touching on title item
                 lastTapUpTime = System.currentTimeMillis();
                 int titleIndex = (int) v.getTag();
-                if (eventListener != null) {
-                    viewPager.setCurrentItem(titleIndex);
-                    eventListener.onTitleClicked(titleIndex);
-                }
+                onTitleTextViewSingleTap(titleIndex);
             } else if (viewPager != null && fromLastTouch >= MAX_SETTLE_DURATION) {
                 // delegate touch event to underlying view pager, this is for swiping on title item
                 viewPager.onTouchEvent(ev);
@@ -108,6 +109,16 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
         }
     };
 
+    private void onTitleTextViewSingleTap(int titleIndex) {
+        if (viewPager != null) {
+            viewPager.setCurrentItem(titleIndex);
+        }
+
+        if (eventListener != null) {
+            eventListener.onTitleClicked(titleIndex);
+        }
+    }
+
     /**
      *
      * @param inflater
@@ -116,7 +127,7 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
      */
     private TextView createTitleTv(LayoutInflater inflater, int index) {
         TextView tvTitle = new TextView(getContext());
-        tvTitle.setTextAppearance(getContext(), titleStripAppearance);
+        tvTitle.setTextAppearance(getContext(), titleStripNormalAppearance);
         tvTitle.setText(titles[index]);
         tvTitle.setTag(index);
 
@@ -152,7 +163,7 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
         TextView firstTitle = getTitle(0);
         float initX = firstTitle.getPaint().measureText(firstTitle.getText().toString()) + firstTitle.getPaddingLeft() + firstTitle.getPaddingRight();
         titleContainer.setX(- initX);
-//        getTitle(1).setTextColor(getResources().getColor(R.color.pager_title));
+        getTitle(1).setTextAppearance(getContext(), titleStripSelectedAppearance);
 
         this.viewPager = viewPager;
         viewPager.setOnPageChangeListener(this);
@@ -286,13 +297,13 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
             }
         }
 
-//        for (int i = 0; i < titleCount + 2; ++i) {
-//            if (i == 1) {
-//                getTitle(i).setTextColor(getResources().getColor(R.color.pager_title));
-//            } else {
-//                getTitle(i).setTextColor(getResources().getColor(R.color.pager_title_dim));
-//            }
-//        }
+        for (int i = 0; i < titleCount + 2; ++i) {
+            if (i == 1) {
+                getTitle(i).setTextAppearance(getContext(), titleStripSelectedAppearance);
+            } else {
+                getTitle(i).setTextAppearance(getContext(), titleStripNormalAppearance);
+            }
+        }
 
         titleContainer.setX(- offsreenX);
     }

@@ -5,4 +5,16 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="TitleStripNormalAppearance">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">#f00</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TitleStripSelectedAppearance">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">#f00</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
