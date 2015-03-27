@@ -1,4 +1,4 @@
-package com.akhoi.endlesspagertitlestrip;
+package com.akhoi.infiniteviewpagertitlestrip;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -17,13 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.akhoi.endlesstitlestrip.R;
+import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
+import com.antonyt.infiniteviewpager.InfiniteViewPager;
 
 /**
  * Created by khoi2359 on 2/4/15.
  *
  * This view has measurement implementation copied from HorizontalScrollView to make its only child has extended width.</br>
  */
-public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnPageChangeListener {
+public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPager.OnPageChangeListener {
     private static final int MAX_SETTLE_DURATION = 600; // ms
 
     public interface EventListener {
@@ -43,22 +45,22 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
     private int titleStripSelectedAppearance;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public EndlessPagerTitleStrip(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public InfiniteViewPagerTitleStrip(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }
 
-    public EndlessPagerTitleStrip(Context context, AttributeSet attrs, int defStyleAttr) {
+    public InfiniteViewPagerTitleStrip(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
-    public EndlessPagerTitleStrip(Context context, AttributeSet attrs) {
+    public InfiniteViewPagerTitleStrip(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public EndlessPagerTitleStrip(Context context) {
+    public InfiniteViewPagerTitleStrip(Context context) {
         super(context);
         init(null);
     }
@@ -68,9 +70,9 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
             return;
         }
 
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.EndlessPagerTitleStrip);
-        titleStripNormalAppearance = typedArray.getResourceId(R.styleable.EndlessPagerTitleStrip_titleStripNormalAppearance, 0);
-        titleStripSelectedAppearance = typedArray.getResourceId(R.styleable.EndlessPagerTitleStrip_titleStripSelectedAppearance, 0);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.InfiniteViewPagerTitleStrip);
+        titleStripNormalAppearance = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleStripNormalAppearance, 0);
+        titleStripSelectedAppearance = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleStripSelectedAppearance, 0);
 
         typedArray.recycle();
     }
@@ -111,12 +113,29 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
 
     private void onTitleTextViewSingleTap(int titleIndex) {
         if (viewPager != null) {
-            viewPager.setCurrentItem(titleIndex);
+            navigateTab(titleIndex);
         }
 
         if (eventListener != null) {
             eventListener.onTitleClicked(titleIndex);
         }
+    }
+
+    private boolean navigateTab(int desTab) {
+        int nextTab = viewPager.getCurrentItem();
+
+        if (nextTab == desTab)
+            return false;
+
+        InfinitePagerAdapter infinitePagerAdapter = (InfinitePagerAdapter) viewPager.getAdapter();
+        if (nextTab > desTab) {
+            nextTab += infinitePagerAdapter.getRealCount();
+        }
+
+        nextTab = nextTab - nextTab % infinitePagerAdapter.getRealCount() + desTab;
+        viewPager.setCurrentItem(nextTab, true);
+
+        return true;
     }
 
     /**
@@ -136,10 +155,10 @@ public class EndlessPagerTitleStrip extends FrameLayout implements ViewPager.OnP
 
     public void setViewPager(ViewPager viewPager) {
         PagerAdapter adapter = viewPager.getAdapter();
-        titleCount = adapter.getCount();
-//        if (adapter instanceof InfinitePagerAdapter) {
-//            titleCount = ((InfinitePagerAdapter)adapter).getRealCount();
-//        }
+        if (!(adapter instanceof InfinitePagerAdapter)) {
+            throw new IllegalArgumentException("ViewPager adapter must be InfinitePagerAdapter class");
+        }
+        titleCount = ((InfinitePagerAdapter)adapter).getRealCount();
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
         TextView[] children = new TextView[titleCount];

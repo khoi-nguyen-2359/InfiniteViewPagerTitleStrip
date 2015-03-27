@@ -1,4 +1,4 @@
-package com.akhoi.endlesspagertitlestrip;
+package com.akhoi.infiniteviewpagertitlestrip;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -17,9 +19,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new MyAdapter());
+        viewPager.setAdapter(new InfinitePagerAdapter(new MyAdapter()));
 
-        EndlessPagerTitleStrip titleStrip = (EndlessPagerTitleStrip) findViewById(R.id.view_title_strip);
+        InfiniteViewPagerTitleStrip titleStrip = (InfiniteViewPagerTitleStrip) findViewById(R.id.view_title_strip);
         titleStrip.setViewPager(viewPager);
     }
 

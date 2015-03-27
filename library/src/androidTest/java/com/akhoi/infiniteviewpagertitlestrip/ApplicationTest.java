@@ -1,4 +1,4 @@
-package com.akhoi.endlesspagertitlestrip;
+package com.akhoi.infiniteviewpagertitlestrip;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

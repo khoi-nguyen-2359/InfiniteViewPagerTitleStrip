@@ -6,8 +6,8 @@
     </style>
 
     <style name="TitleStripNormalAppearance">
-        <item name="android:textSize">26sp</item>
-        <item name="android:textColor">#f00</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#af00</item>
         <item name="android:textStyle">normal</item>
     </style>
 

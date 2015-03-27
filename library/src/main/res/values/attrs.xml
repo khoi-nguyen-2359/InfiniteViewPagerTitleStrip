@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="EndlessPagerTitleStrip">
+    <declare-styleable name="InfiniteViewPagerTitleStrip">
         <attr name="titleStripNormalAppearance" format="reference"/>
         <attr name="titleStripSelectedAppearance" format="reference"/>
     </declare-styleable>
