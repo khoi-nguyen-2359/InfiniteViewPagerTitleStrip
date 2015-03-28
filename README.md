@@ -1,4 +1,6 @@
 # InfiniteViewPagerTitleStrip
+
+[![Join the chat at https://gitter.im/khoi-nguyen-2359/InfiniteViewPagerTitleStrip](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/khoi-nguyen-2359/InfiniteViewPagerTitleStrip?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 In dev.
 <br/>
 <br/>
