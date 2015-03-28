@@ -10,7 +10,4 @@ In dev.
 2. Touch / Swipe on the strip<br/>
 <br/>
 <br/>
-<b>Working:</b> Use this together with an endless pager adapter to make better experience.<br/>
-<br/>
-<br/>
 <b>Known issues:</b> incorrect title's order after a screen orientation change.
