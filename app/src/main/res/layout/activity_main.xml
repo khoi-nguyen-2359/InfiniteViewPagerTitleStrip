@@ -10,9 +10,9 @@
 
     <com.akhoi.infiniteviewpagertitlestrip.InfiniteViewPagerTitleStrip
         android:id="@+id/view_title_strip"
-
         app:titleStripNormalAppearance="@style/TitleStripNormalAppearance"
         app:titleStripSelectedAppearance="@style/TitleStripSelectedAppearance"
+        app:titleTextViewLayout="@layout/item_title_strip_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

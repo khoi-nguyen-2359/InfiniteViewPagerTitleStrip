@@ -16,9 +16,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.akhoi.endlesstitlestrip.R;
 import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
 import com.antonyt.infiniteviewpager.InfiniteViewPager;
+
 
 /**
  * Created by khoi2359 on 2/4/15.
@@ -43,6 +43,7 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
 
     private int titleStripNormalAppearance;
     private int titleStripSelectedAppearance;
+    private int titleTextViewLayout;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public InfiniteViewPagerTitleStrip(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -73,7 +74,7 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.InfiniteViewPagerTitleStrip);
         titleStripNormalAppearance = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleStripNormalAppearance, 0);
         titleStripSelectedAppearance = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleStripSelectedAppearance, 0);
-//        titleTextViewLayout = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleTextViewLayout, 0);
+        titleTextViewLayout = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleTextViewLayout, 0);
 
         typedArray.recycle();
     }
@@ -144,12 +145,13 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
      * @return
      */
     private View createTitleTv(LayoutInflater inflater, int index) {
-        TextView tvTitle = new TextView(getContext());
+        View itemView = inflater.inflate(titleTextViewLayout, titleContainer, false);
+        TextView tvTitle = (TextView) itemView.findViewById(R.id.titlestrip_textview_id);
         tvTitle.setTextAppearance(getContext(), titleStripNormalAppearance);
         tvTitle.setText(titles[index]);
-        tvTitle.setTag(index);
+        itemView.setTag(index);
 
-        return tvTitle;
+        return itemView;
     }
 
     public void setViewPager(InfiniteViewPager viewPager) {
@@ -182,10 +184,11 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
         prevPage = -1;
 
         // dont have width measured at this moment so do some calculation.
-        TextView firstTitle = getTitle(0);
-        float initX = firstTitle.getPaint().measureText(firstTitle.getText().toString()) + firstTitle.getPaddingLeft() + firstTitle.getPaddingRight();
+        View itemView = getTitle(0);
+        TextView firstTitle = getTitleTextView(0);
+        float initX = firstTitle.getPaint().measureText(firstTitle.getText().toString()) + firstTitle.getPaddingLeft() + firstTitle.getPaddingRight() + itemView.getPaddingLeft() + itemView.getPaddingRight();
         titleContainer.setX(- initX);
-        getTitle(1).setTextAppearance(getContext(), titleStripSelectedAppearance);
+        getTitleTextView(1).setTextAppearance(getContext(), titleStripSelectedAppearance);
 
         this.viewPager = viewPager;
         viewPager.setOnPageChangeListener(this);
@@ -197,8 +200,8 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
         tvTitle.setOnClickListener(null);
     }
 
-    private TextView getTitle(int index) {
-        return (TextView) titleContainer.getChildAt(index);
+    private View getTitle(int index) {
+        return titleContainer.getChildAt(index);
     }
 
     /**
@@ -321,13 +324,17 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
 
         for (int i = 0; i < titleCount + 2; ++i) {
             if (i == 1) {
-                getTitle(i).setTextAppearance(getContext(), titleStripSelectedAppearance);
+                getTitleTextView(i).setTextAppearance(getContext(), titleStripSelectedAppearance);
             } else {
-                getTitle(i).setTextAppearance(getContext(), titleStripNormalAppearance);
+                getTitleTextView(i).setTextAppearance(getContext(), titleStripNormalAppearance);
             }
         }
 
         titleContainer.setX(- offsreenX);
+    }
+
+    private TextView getTitleTextView(int index) {
+        return (TextView) getTitle(index).findViewById(R.id.titlestrip_textview_id);
     }
 
     @Override

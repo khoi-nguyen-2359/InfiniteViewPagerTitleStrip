@@ -1,7 +1,6 @@
-package com.akhoi.infiniteviewpagertitlestrip;
+package com.akhoi.infiniteviewpagertitlestrip.demo;
 
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,11 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.akhoi.infiniteviewpagertitlestrip.InfiniteViewPagerTitleStrip;
 import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
 import com.antonyt.infiniteviewpager.InfiniteViewPager;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    static final String[] titles = new String[]{"coconut", "organ", "grapes"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Page title " + position + " ";
+            return titles[position];
         }
     }
 }
