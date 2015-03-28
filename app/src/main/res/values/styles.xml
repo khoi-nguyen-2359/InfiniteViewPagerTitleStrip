@@ -1,20 +1,21 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">#000</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="TitleStripNormalAppearance">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">#af00</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">#7fff</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TitleStripSelectedAppearance">
-        <item name="android:textSize">30sp</item>
-        <item name="android:textColor">#f00</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
 </resources>

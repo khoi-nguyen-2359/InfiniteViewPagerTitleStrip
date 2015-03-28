@@ -3,5 +3,6 @@
     <declare-styleable name="InfiniteViewPagerTitleStrip">
         <attr name="titleStripNormalAppearance" format="reference"/>
         <attr name="titleStripSelectedAppearance" format="reference"/>
+        <attr name="titleTextViewLayout" format="reference"/>
     </declare-styleable>
 </resources>

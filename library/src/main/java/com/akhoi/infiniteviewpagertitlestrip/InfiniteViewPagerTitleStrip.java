@@ -38,7 +38,7 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
     private String[] titles;
     private int prevPage;
     private EventListener eventListener;
-    private ViewPager viewPager;
+    private InfiniteViewPager viewPager;
     private long lastTapUpTime;
 
     private int titleStripNormalAppearance;
@@ -73,6 +73,7 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.InfiniteViewPagerTitleStrip);
         titleStripNormalAppearance = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleStripNormalAppearance, 0);
         titleStripSelectedAppearance = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleStripSelectedAppearance, 0);
+//        titleTextViewLayout = typedArray.getResourceId(R.styleable.InfiniteViewPagerTitleStrip_titleTextViewLayout, 0);
 
         typedArray.recycle();
     }
@@ -122,18 +123,16 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
     }
 
     private boolean navigateTab(int desTab) {
-        int nextTab = viewPager.getCurrentItem();
-
-        if (nextTab == desTab)
+        if (viewPager.getCurrentItem() == desTab)
             return false;
 
-        InfinitePagerAdapter infinitePagerAdapter = (InfinitePagerAdapter) viewPager.getAdapter();
-        if (nextTab > desTab) {
-            nextTab += infinitePagerAdapter.getRealCount();
+        int nextTab = viewPager.getRealCurrentItem();
+        if (viewPager.getCurrentItem() > desTab) {
+            nextTab += titleCount;
         }
 
-        nextTab = nextTab - nextTab % infinitePagerAdapter.getRealCount() + desTab;
-        viewPager.setCurrentItem(nextTab, true);
+        nextTab = nextTab - nextTab % titleCount + desTab;
+        viewPager.setRealCurrentItem(nextTab, true);
 
         return true;
     }
@@ -144,7 +143,7 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
      * @param index index of the corresponding page that this title item is with
      * @return
      */
-    private TextView createTitleTv(LayoutInflater inflater, int index) {
+    private View createTitleTv(LayoutInflater inflater, int index) {
         TextView tvTitle = new TextView(getContext());
         tvTitle.setTextAppearance(getContext(), titleStripNormalAppearance);
         tvTitle.setText(titles[index]);
@@ -153,15 +152,19 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
         return tvTitle;
     }
 
-    public void setViewPager(ViewPager viewPager) {
-        PagerAdapter adapter = viewPager.getAdapter();
-        if (!(adapter instanceof InfinitePagerAdapter)) {
-            throw new IllegalArgumentException("ViewPager adapter must be InfinitePagerAdapter class");
+    public void setViewPager(InfiniteViewPager viewPager) {
+        if (!(viewPager instanceof InfiniteViewPager)) {
+            throw new IllegalArgumentException("ViewPager must be InfiniteViewPager class");
         }
-        titleCount = ((InfinitePagerAdapter)adapter).getRealCount();
+
+        PagerAdapter adapter = viewPager.getAdapter();
+        titleCount = adapter.getCount();
+        if (adapter instanceof InfinitePagerAdapter) {
+            titleCount = ((InfinitePagerAdapter) adapter).getRealCount();
+        }
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        TextView[] children = new TextView[titleCount];
+        View[] children = new View[titleCount];
         titles = new String[titleCount];
         for (int i = 0; i < titleCount; ++i) {
             titles[i] = adapter.getPageTitle(i).toString();
@@ -170,7 +173,7 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
 
         titleContainer.removeAllViews();
         addTitle(createTitleTv(inflater, titleCount - 1), 0);
-        for (TextView view : children) {
+        for (View view : children) {
             addTitle(view, -1);
         }
         addTitle(createTitleTv(inflater, 0), -1);
@@ -203,7 +206,7 @@ public class InfiniteViewPagerTitleStrip extends FrameLayout implements ViewPage
      * @param titleView
      * @param titleViewIndex pass index of the title in its container. negative number will be understood as adding at the end of container.
      */
-    private void addTitle(TextView titleView, int titleViewIndex) {
+    private void addTitle(View titleView, int titleViewIndex) {
         if (titleViewIndex >= 0) {
             titleContainer.addView(titleView, titleViewIndex);
         } else {

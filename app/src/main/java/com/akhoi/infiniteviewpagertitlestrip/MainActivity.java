@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
+import com.antonyt.infiniteviewpager.InfiniteViewPager;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -18,7 +19,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        InfiniteViewPager viewPager = (InfiniteViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new InfinitePagerAdapter(new MyAdapter()));
 
         InfiniteViewPagerTitleStrip titleStrip = (InfiniteViewPagerTitleStrip) findViewById(R.id.view_title_strip);

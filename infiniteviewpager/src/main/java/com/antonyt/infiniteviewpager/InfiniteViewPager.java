@@ -33,6 +33,23 @@ public class InfiniteViewPager extends ViewPager {
         setCurrentItem(item, false);
     }
 
+    /**
+     * InfiniteViewPager may have more items than number of items in the adapter.<br/>
+     * This method set an item as current item for view pager, skipping the calculation to adapter's backed data item index.
+     * @param item
+     * @param smoothScroll
+     */
+    public void setRealCurrentItem(int item, boolean smoothScroll) {
+        super.setCurrentItem(item, smoothScroll);
+    }
+
+    /**
+     * Return current item index, skipping calculation from adapter's item index.
+     */
+    public int getRealCurrentItem() {
+        return super.getCurrentItem();
+    }
+
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
         if (getAdapter().getCount() == 0) {
